@@ -85,7 +85,21 @@ function App() {
           </div>
         </div>
         <div className="w-full min-h-[40vh]">
-          {todoContext?.todos.length ? <ShowTodos /> : <div></div>}
+          {todoContext?.todos.length ? (
+            <ShowTodos />
+          ) : (
+            <div>
+              <p
+                className={`transition-all duration-500 text-center font-semibold uppercase text-xl py-2 ${
+                  themeContext?.isDarkTheme
+                    ? "  text-backgroundLight"
+                    : " text-backgroundDark"
+                }`}
+              >
+                Empty...
+              </p>
+            </div>
+          )}
         </div>
         <div className="w-full py-[30px] pr-[70px] flex justify-end">
           <button
