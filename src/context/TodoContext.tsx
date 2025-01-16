@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { TodoItem } from "./../types";
 
 interface TodoContextType {
@@ -37,11 +37,7 @@ export const TodoContext = createContext<TodoContextType | undefined>(
 );
 
 export function TodoProvider({ children }: TodoProviderProps) {
-  const [todos, setTodos] = useState<TodoItem[]>([
-    { id: "0", text: "Clear House", completed: false },
-    { id: "1", text: "Buy Groceries", completed: false },
-    { id: "2", text: "Walk the Dog", completed: true },
-  ]);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
 
   const [newTodo, setNewTodo] = useState("");
   const [isCreate, setIsCreate] = useState<boolean>(false);
@@ -49,6 +45,18 @@ export function TodoProvider({ children }: TodoProviderProps) {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editId, setEditId] = useState<string>("");
   const [editTodo, setEditTodo] = useState<string>("");
+
+  useEffect(() => {
+    // ดึง todos จาก localStorage
+    const storedTodos = localStorage.getItem("TodoList");
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+  }, []);
+  useEffect(() => {
+    // บันทึก todos ลงใน localStorage
+    localStorage.setItem("TodoList", JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = () => {
     if (newTodo != " ") {
@@ -85,6 +93,7 @@ export function TodoProvider({ children }: TodoProviderProps) {
     setEditTodo("");
     setIsEdit(false);
   };
+
   return (
     <TodoContext.Provider
       value={{
