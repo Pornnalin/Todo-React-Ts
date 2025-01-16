@@ -1,4 +1,3 @@
-// import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
@@ -7,7 +6,6 @@ import { TodoFilterProvider } from "./context/TodoFilter.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
   <TodoProvider>
     <TodoFilterProvider>
       <ThemeProvider>
@@ -15,5 +13,4 @@ createRoot(document.getElementById("root")!).render(
       </ThemeProvider>
     </TodoFilterProvider>
   </TodoProvider>
-  // </StrictMode>
 );

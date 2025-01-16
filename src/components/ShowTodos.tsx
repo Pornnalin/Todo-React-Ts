@@ -42,7 +42,7 @@ function ShowTodos() {
                   <input
                     type="text"
                     value={todoContext?.editTodo}
-                    placeholder={todoContext?.todos[Number(todo.id)].text}
+                    placeholder={todoContext.textById()}
                     onChange={(e) => {
                       e.preventDefault();
                       todoContext?.setEditTodo(e.target.value);

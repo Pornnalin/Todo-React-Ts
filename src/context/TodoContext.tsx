@@ -5,8 +5,8 @@ interface TodoContextType {
   todos: TodoItem[];
   //Function
   addTodo: () => void;
-  toggleComplete: (id: string) => void;
-  deleteTodoItem: (id: string) => void;
+  toggleComplete: (id: number) => void;
+  deleteTodoItem: (id: number) => void;
 
   //New Todos
   setTodos: React.Dispatch<React.SetStateAction<TodoItem[]>>;
@@ -21,11 +21,12 @@ interface TodoContextType {
   //Edit
   isEdit: boolean;
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  editId: string;
-  setEditId: React.Dispatch<React.SetStateAction<string>>;
+  editId: number;
+  setEditId: React.Dispatch<React.SetStateAction<number>>;
   editById: () => void;
   editTodo: string;
   setEditTodo: React.Dispatch<React.SetStateAction<string>>;
+  textById: () => string;
 }
 
 interface TodoProviderProps {
@@ -43,7 +44,7 @@ export function TodoProvider({ children }: TodoProviderProps) {
   const [isCreate, setIsCreate] = useState<boolean>(false);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [editId, setEditId] = useState<string>("");
+  const [editId, setEditId] = useState<number>(0);
   const [editTodo, setEditTodo] = useState<string>("");
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export function TodoProvider({ children }: TodoProviderProps) {
 
   const addTodo = () => {
     if (newTodo != " ") {
-      const newId = crypto.randomUUID();
+      const newId = Math.floor(Math.random() * 999);
       const newTodoItem: TodoItem = {
         id: newId,
         text: newTodo,
@@ -71,14 +72,14 @@ export function TodoProvider({ children }: TodoProviderProps) {
     }
   };
 
-  const toggleComplete = (id: string) => {
+  const toggleComplete = (id: number) => {
     const updateTodo = todos.map((todo) =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
     setTodos(updateTodo);
   };
 
-  const deleteTodoItem = (id: string) => {
+  const deleteTodoItem = (id: number) => {
     const updateTodo = todos.filter((todo) => todo.id != id);
     setTodos(updateTodo);
   };
@@ -89,11 +90,19 @@ export function TodoProvider({ children }: TodoProviderProps) {
     const updateTodoItem = todos.map((todo) =>
       todo.id === editId ? { ...todo, text: editTodo } : todo
     );
+
     setTodos(updateTodoItem);
     setEditTodo("");
     setIsEdit(false);
   };
-
+  const textById = () => {
+    const todo = todos.find((item) => item.id === editId);
+    if (todo) {
+      return todo.text;
+    } else {
+      return "";
+    }
+  };
   return (
     <TodoContext.Provider
       value={{
@@ -114,6 +123,7 @@ export function TodoProvider({ children }: TodoProviderProps) {
         setIsEdit,
         editTodo,
         setEditTodo,
+        textById,
       }}
     >
       {children}
