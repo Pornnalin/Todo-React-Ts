@@ -6,7 +6,7 @@ import { TodoContext } from "./context/TodoContext";
 import { useContext } from "react";
 import { TodoFilterContext } from "./context/TodoFilter";
 import { ThemeContext } from "./context/ThemeContext";
-
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 function App() {
   const todoContext = useContext(TodoContext);
   const todoFilterContext = useContext(TodoFilterContext);
@@ -30,19 +30,31 @@ function App() {
         </h1>
         <div className="w-full flex flex-col md:flex-row gap-4 justify-center ">
           <form action="" className="flex-grow">
-            <input
-              type="search"
-              name=""
-              id=""
-              value={todoFilterContext?.search}
-              onChange={(e) => todoFilterContext?.setSearch(e.target.value)}
-              placeholder="Search note..."
-              className={`w-[100%] bg-transparent rounded-md border-[2px] py-1 px-2 focus:outline-none transition-all duration-500 ${
-                themeContext?.isDarkTheme
-                  ? " border-white  text-backgroundLight"
-                  : " border-primary  text-backgroundDark"
-              }`}
-            />
+            {/* search */}
+            <div className="relative">
+              <input
+                type="search"
+                name=""
+                id=""
+                value={todoFilterContext?.search}
+                onChange={(e) => todoFilterContext?.setSearch(e.target.value)}
+                placeholder="Search note..."
+                className={`w-[100%] bg-transparent rounded-md border-[2px] py-1 px-2 focus:outline-none transition-all font-semibold duration-500 ${
+                  themeContext?.isDarkTheme
+                    ? " border-white  text-backgroundLight"
+                    : " border-primary  text-primary"
+                }`}
+              />
+              <span
+                className={`absolute transition-all right-5 top-1/4  duration-500 text-xl ${
+                  themeContext?.isDarkTheme
+                    ? "   text-backgroundLight"
+                    : "   text-primary"
+                }`}
+              >
+                <HiOutlineMagnifyingGlass />
+              </span>
+            </div>
           </form>
           <div className="flex gap-4">
             <select
