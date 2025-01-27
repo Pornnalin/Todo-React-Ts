@@ -143,9 +143,19 @@ function App() {
                 alert("Please input");
               }
             }}
-            className="flex flex-col gap-4 border justify-start items-center w-full max-w-lg mx-auto px-10 py-4 rounded-md bg-backgroundDark"
+            className={`flex flex-col gap-4 border justify-start items-center w-full max-w-lg mx-auto px-10 py-4 rounded-md ${
+              themeContext?.isDarkTheme
+                ? "bg-backgroundDark"
+                : "bg-backgroundLight"
+            } `}
           >
-            <p className="uppercase text-xl font-semibold text-backgroundLight">
+            <p
+              className={`uppercase text-xl font-semibold  ${
+                themeContext?.isDarkTheme
+                  ? "text-backgroundLight"
+                  : "text-backgroundDark"
+              }`}
+            >
               new note
             </p>
             <input
@@ -155,7 +165,11 @@ function App() {
               value={todoContext?.newTodo}
               placeholder="Input your note..."
               onChange={(e) => todoContext?.setNewTodo(e.target.value)}
-              className="w-full bg-transparent rounded-md border-white border text-backgroundLight py-1 px-2"
+              className={`w-full bg-transparent rounded-md ${
+                themeContext?.isDarkTheme
+                  ? "border-backgroundLight border  text-backgroundLight"
+                  : "border-backgroundDark border  text-backgroundDark"
+              }  py-1 px-2`}
             />
             <div className="flex justify-between w-full mt-32">
               <button
